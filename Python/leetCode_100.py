@@ -53,11 +53,7 @@ print(target(nums,k))
 
 #Input
 #4
-#bcdef
-#abcdefg
-#bcde
-#bcdef
-
+#[bcdef, abcdefg, bcde, bcdef]
 #output:
 #3
 #2 1 1
