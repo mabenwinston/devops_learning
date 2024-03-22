@@ -1,25 +1,20 @@
 import numpy as np
-#
-# def input_matrix(rows, cols):
-#     matrix = []
-#     print("Enter the elements of the matrix:")
-#     for i in range(rows):
-#         row = []
-#         for j in range(cols):
-#             element = float(input(f"Enter element at position ({i+1},{j+1}): "))
-#             row.append(element)
-#         matrix.append(row)
-#     return np.array(matrix)
-#
-# # Take input for the dimensions of the matrix
-# rows = int(input("Enter the number of rows: "))
-# cols = int(input("Enter the number of columns: "))
-#
-# # Input the matrix
-# user_matrix = input_matrix(rows, cols)
-#
-# print("User Matrix:")
-# print(user_matrix)
+
+def input_matrix(rows, cols):
+    matrix = []
+    print("Enter the elements of the matrix:")
+    for i in range(rows):
+        row = []
+        for j in range(cols):
+            element = int(input(f"Enter element at position ({i+1},{j+1}): "))
+            row.append(element)
+        matrix.append(row)
+    return np.array(matrix)
+rows = int(input("Enter the number of rows: "))
+cols = int(input("Enter the number of columns: "))
+user_matrix = input_matrix(rows, cols)
+print("User Matrix:")
+print(user_matrix)
 
 
 def matrix_sum(matrix):
