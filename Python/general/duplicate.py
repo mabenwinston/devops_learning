@@ -1,3 +1,18 @@
+def find_duplicates(arr):
+    seen = []
+    dup = []
+    for num in arr:
+        if num not in seen:
+            seen.append(num)
+        else:
+            dup.append(num)
+    return dup  
+
+arr = [1, 2, 3, 4, 5, 2, 7, 8, 3]
+print("Duplicates in the array:", find_duplicates(arr))
+
+
+
 def rem_dup(num):
     sorted = []
     x = len(num)
@@ -8,31 +23,6 @@ def rem_dup(num):
     return sorted
 nums = [0,0,1,1,1,2,2,3,3,4]
 rem_dup(nums)
-
-def max_profit(prices):
-    max_profit = 0
-    for i in range(1, len(prices)):
-        if prices[i] > prices[i - 1]:
-            max_profit = max_profit + prices[i] - prices[i - 1]
-    return max_profit
-
-# prices = [1,2,3,4,5]
-# prices = [7,1,5,3,6,4]
-prices = [7,6,4,3,1]
-print("Output:", max_profit(prices))
-
-
-def rotate(nums):
-    max = len(nums)
-    temp = nums[0]
-    for i in range(max - 1):
-        nums[i] = nums[i + 1]
-    nums[max - 1] = temp
-    return nums
-
-nums = [1, 2, 3, 4, 5, 6, 7]
-print(rotate(nums))
-
 
 
 def duplicate(nums):
