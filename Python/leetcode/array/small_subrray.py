@@ -13,9 +13,9 @@ def smallestSubWithSum(arr, n, x):
 
 arr1 = [1, 4, 45, 6, 10, 19]
 x = 51
-n1 = len(arr1)
-res1 = smallestSubWithSum(arr1, n1, x);
-if res1 == n1+1:
+n = len(arr1)
+res1 = smallestSubWithSum(arr1, n, x)
+if res1 == n+1:
 	print("Not possible")
 else:
 	print(res1)
@@ -23,7 +23,7 @@ else:
 arr2 = [1, 10, 5, 2, 7]
 n2 = len(arr2)
 x = 9
-res2 = smallestSubWithSum(arr2, n2, x);
+res2 = smallestSubWithSum(arr2, n2, x)
 if res2 == n2+1:
 	print("Not possible")
 else:
