@@ -290,7 +290,7 @@ $ docker run -d <image_name>
 
 $ docker run -d -p 8080:8080 --name <container_name> <image_name>
 
-$ docker stop <container id>
+$ docker stop <container_id>
 
 $ docker container rm <container-id/container_name>
 
