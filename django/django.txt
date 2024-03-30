@@ -1,0 +1,57 @@
+1. Introduction
+
+a). What is Django?
+
+** Django is a Python framework that makes it easier to create web sites using Python.
+** Django emphasizes reusability of components, also referred to as DRY (Don't Repeat Yourself), and comes with ready-to-use features like login system, database connection and CRUD operations (Create Read Update Delete).
+** Django is especially helpful for database driven websites.
+
+b). How does Django Work?
+
+
+=> Django receives the URL, checks the urls.py file, and calls the view that matches the URL.
+=> The view, located in views.py, checks for relevant models.
+=> The models are imported from the models.py file.
+=> The view then sends the data to a specified template in the template folder.
+=> The template contains HTML and Django tags, and with the data it returns finished HTML content back to the browser.
+
+** Django follows the MVT design pattern (Model View Template).
+
+Model - The data you want to present, usually data from a database.
+View - A request handler that returns the relevant template and content - based on the request from the user.
+Template - A text file (like an HTML file) containing the layout of the web page, with logic on how to display the data.
+
+---> Model
+
+** The model provides data from the database.
+** In Django, the data is delivered as an Object Relational Mapping (ORM), which is a technique designed to make it easier to work with databases.
+** The models are usually located in a file called models.py.
+
+---> View
+
+** A view is a function or method that takes http requests as arguments, imports the relevant model(s), and finds out what data to send to the template, and returns the final result.
+** The views are usually located in a file called views.py.
+
+---> Template
+
+** A template is a file where you describe how the result should be represented.
+** Django uses standard HTML to describe the layout, but uses Django tags to add logic:
+** The templates of an application is located in a folder named templates.
+
+---> URLs
+
+** Django also provides a way to navigate around the different pages in a website. This is done in a file called urls.py.
+
+
+2. Installtion
+
+$ python3 -m venv django
+$ source django/bin/activate
+$ pip install Django
+$ django-admin --version
+
+
+
+
+
+

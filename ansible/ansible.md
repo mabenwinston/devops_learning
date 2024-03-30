@@ -1,0 +1,130 @@
+---------------------------------------------------------------------- ANSIBLE -------------------------------------------------------------------------------
+$ ansible-playbook playbook.yaml -i inventory2.txt
+
+
+1. external_vars.yaml
+
+component_path:
+        - name: tomcat
+          path: ~/Software/apache-tomcat
+        - name: client19c
+          path: ~/Software/client19c
+        - name: JDK
+          path: ~/Software/JDK
+
+
+2. inventory.txt
+
+[web]
+rmbgbp@10.180.40.91
+
+[app]
+rmbdevadm@10.180.40.201
+
+3. playbook.yaml
+
+---
+- name: Download and Setup Tomcat, client19c and JDK
+  hosts: web, app
+  any_errors_fatal: true
+  gather_facts: yes
+  vars:
+          download_url:
+                  - dest: ~/Software/apache-tomcat
+                    url: http://172.19.97.149/software/tomcat/apache-tomcat-9.0.1.tar.gz
+                  - dest: ~/Software/JDK
+                    url: http://172.19.97.149/software/java/jdk-8u201-linux-x64.tar.gz
+  vars_files:
+          - external_vars.yaml
+  tasks:
+          - name: Make directory for tomcat, client19c and JDK
+            shell: |
+                    mkdir -p {{item.path}}
+            loop: "{{component_path}}"
+
+          - debug:
+                  msg: "{{component_path}}"
+
+          - name: Download tomcat and JDK from artifactory
+            shell: |
+                     wget -P {{item.dest}} {{item.url}}
+
+            loop: "{{download_url}}"
+
+          - name: Download unarchived ANT software from remote url
+            unarchive:
+                    src: http://172.19.97.149/software/ant/apache-ant-1.7.1-bin.tar.gz
+                    dest: ~/
+                    remote_src: yes
+
+
+          - name: Check ANT is downloaded on host servers
+            command: ls -l ~/Software/apache-tomcat/apache-tomcat-9.0.1.tar.gz
+            register: output_flag
+            ignore_errors: yes
+
+
+          - name: Extract tomcat archive package
+            unarchive:
+                    src: ~/Software/apache-tomcat/apache-tomcat-9.0.1.tar.gz
+                    dest: ~/
+                    remote_src: yes
+                    mode: 0755
+            when: output_flag.rc == 0
+
+
+          - name: Validate if startup.sh script is present
+            shell: ls -lrt ~/apache-tomcat-9.0.1/bin/startup.sh
+            register: lsresult
+            until: "lsresult is not failed"
+            retries: 10
+            delay: 10
+
+          - name: Add users and role to tomcat-users.xml
+            blockinfile:
+                    path: ~/apache-tomcat-9.0.1/conf/tomcat-users.xml
+                    backup: yes
+                    block: |
+                            <role rolename="tomcat"/>
+                            <role rolename="role1"/>
+                            <user username="tomcat" password="a!9m2$41t519#" roles="tomcat"/>
+                            <user username="both" password="Tc5f5@lc3nt3r1" roles="tomcat,role1"/>
+                            <user username="role1" password="2090439@tcs.com" roles="role1"/>
+                    marker: "<!-- {mark} ANSIBLE MANAGED BLOCK -->"
+                    insertafter: "</tomcat-users"
+
+          - name: Configure tomcat-users.xml on remote host for logging
+            replace:
+                    path: ~/apache-tomcat-9.0.1/conf/tomcat-users.xml
+                    regexp: '</tomcat-users>'
+                    replace: ''
+                    backup: yes
+
+          - name: Insert end tag to tomcat-users.xml
+            lineinfile:
+                    path: ~/apache-tomcat-9.0.1/conf/tomcat-users.xml
+                    insertafter: "<!-- END ANSIBLE MANAGED BLOCK -->"
+                    line: "</tomcat-users>"
+                    firstmatch: yes
+                    state: present
+                    backup: no
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Modules used:
+
+1. hosts
+2. gather_facts
+3. vars
+4. vars_files
+5. shell
+6. loop
+7. debug (msg)
+8. unarchive (src, dest, remote_src)
+9. command
+10. when
+11. register
+12. until (retries, delay)
+13. replace (path, regexp, replace, backup)
+14. blockinfile (path, block, marker, insertafter, backup)
+15. lineinfile (path, line, insertafter, firstmatch, state, backup)
