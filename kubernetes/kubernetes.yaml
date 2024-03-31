@@ -1,4 +1,4 @@
------------------------------------------------------------------ What is kubernetes---------------------------------------------------------------------------
+#----------------------------------------------------------------- What is kubernetes---------------------------------------------------------------------------
 
 >> Kubernetes: Container orchestration tool
 
@@ -9,7 +9,7 @@
 3. Disaster recovery - backup and restore
 
 
----------------------------------------------------------------- Main k8s components---------------------------------------------------------------------------
+#---------------------------------------------------------------- Main k8s components---------------------------------------------------------------------------
 
 >> Nodes & Pods
 
@@ -34,57 +34,55 @@ c) External connection
 
 >> configMap & Secret
 
-1. ConfigMap: Contains the external configuration of your application which is connected to POD so that pod gets the data configMap has. ( EX: If username/password changes then rebuild of docker image app can be avoided and the property can be given in ConfigMap as DB_USER = ora19c DB_PWD = password123).
-2. Secret: Used to store secret data in encrypted format (base64 encoded), just as ConfigMap we can connect secret to a POD so that POD can see that data and read from secret.
+1. ConfigMap - Contains the external configuration of your application which is connected to POD so that pod gets the data configMap has. ( EX - If username/password changes then rebuild of docker image app can be avoided and the property can be given in ConfigMap as DB_USER = ora19c DB_PWD = password123).
+2. Secret - Used to store secret data in encrypted format (base64 encoded), just as ConfigMap we can connect secret to a POD so that POD can see that data and read from secret.
 3. We can use data of ConfigMap and Secret from inside the application using environment variable or as property file.
 
-Note: This built-in security mechanism is not enabled by default
+Note - This built-in security mechanism is not enabled by default
 
 >> Data storage
 
-1. Volume: If the Database container or POD gets restarted then data would be gone, So Volume is used in k8's for data persistance.
+1. Volume - If the Database container or POD gets restarted then data would be gone, So Volume is used in k8's for data persistance.
 2. Volume can be on same local machine or on the Node where the POD is running.
 3. Volume can be created even on remote that is outside of the k8's cluster.
 
 >> Deployment & Stateful set
 
-1. Deployment: Another componenet of Kubernetes used to create blueprint of pods(replica of existing or running pod). Instead of creating 
-		multiple pods for scaling up/down, we will create deployments and specify how many replicas.
+1. Deployment - Another componenet of Kubernetes used to create blueprint of pods(replica of existing or running pod). Instead of creating multiple pods for scaling up/down, we will create deployments and specify how many replicas.
 2. If one of the replicas of our application pod would die/stop then service will forward the request to another pod.
 3. We cannot replicate Database using deployment, because if we have replica of Database then they need to access same shared data storage(volume) and there its not possible to manage which pod is writing or reading data from that storage. So here Stateful set is used.
+4. Stateful set - This component is meant specifically for application like Databases(MySQL, MongoDB).
 
-4. Stateful set: - This component is meant specifically for application like Databases(MySQL, MongoDB).
 
-
--------------------------------------------------------------------- Kubernetes Architecture------------------------------------------------------------------
+#------------------------------------------------------------------- Kubernetes Architecture------------------------------------------------------------------
 
 1. Worker machine or Node
 
 --> Each node has multiple Pods on it
 --> 3 processes must be installed on every node(Container runtime like docker, Kubelet, kubeproxy)
---> Kubelet: Interacts with both the container and node. It starts the Pod with a container inside.
+--> Kubelet - Interacts with both the container and node. It starts the Pod with a container inside.
 
 2. Master Node 
 
 --> 4 processes run on every master node(API server, Scheduler, Controller Manager, etcd)
---> Api server: Is like a cluster gateway & acts as gateway for authentication.
---> Scheduler: It decides on which Node new Pod should be scheduled.
---> Controller Manager: Detects cluster state changes (if pods crash/die it detects that and tries to restore the cluster state by restarting the pods by making request to Scheduler)
---> etcd: Is the key value store where all cluster data or cluster changes is stored(Application is not stored in etcd)
+--> Api server - Is like a cluster gateway & acts as gateway for authentication.
+--> Scheduler - It decides on which Node new Pod should be scheduled.
+--> Controller Manager - Detects cluster state changes (if pods crash/die it detects that and tries to restore the cluster state by restarting the pods by making request to Scheduler)
+--> etcd - Is the key value store where all cluster data or cluster changes is stored(Application is not stored in etcd)
 
 >> Add new Master/Node server
 1. get new bare server
 2. install all the master/worker node processes
 3. add it to the cluster
 
------------------------------------------------------------ Minikube & Kubectl --------------------------------------------------------------------------------
+#---------------------------------------------------------- Minikube & Kubectl --------------------------------------------------------------------------------
 
-1. Minikube : Its a 1 Node k8's cluster
+1. Minikube - Its a 1 Node k8's cluster
 --> creates virtual box on your laptop
 --> Node runs in that virtual box
 --> 1 Node k8's cluster for testing on local machine
 
-2. Kubectl : Command line tool for k8's cluster
+2. Kubectl - Command line tool for k8's cluster
 --> Minikube runs both Master and worker processes inside a single Node
 --> The Master process called API server is main entry point into the k8's cluster.
 --> There are ways to communicate to API server using UI, K8's API and kubectl(CLI - most powerful among 3 clients)
@@ -104,7 +102,7 @@ $ kubectl version - Show both client and Server version
 $ kubectl create deployment <name> - Creates deployment
 $ kubectl edit deployment <name> - To Edit the deployment
 $ kubectl edit pod <name> - To edit the pod config yaml
-$ kubectl edit node <name (ex: minikube) - To edit node config yaml
+$ kubectl edit node <name (ex - minikube) - To edit node config yaml
 $ kubectl edit replicaset <name> - To edit replicaset config yaml
 $ kubectl edit services <service name> - To edit services config yaml
 $ kubectl delete deployment <name> - Delete the deployment
@@ -127,14 +125,14 @@ $ kubectl get replicaset
 >> To edit deployment yaml file and change the image version to tomcat:9, Once done tomcat:9 image pod will be created & the old is deleted
 $ kubectl edit deployment tomcat
 
-Note:
+Note ->
 --> We don't directly create/manage pods instead "deployment" does that for us
 --> "kubectl create deployment tomcat-depl --image=tomcat" is blueprint for creating pods
 --> Name & Image to use is the most basic configuration needed for deployment and rest is default.
 --> Between deployment and pod there is another layer which is automatically managed by k8's deployment called "replicaset"
 --> Replicaset is managing the replicas of a POD
 
-Layers of Abstraction:
+Layers of Abstraction ->
 --> Deployment manages a Replicaset
 --> Replicaset manages all the replicas of POD
 --> Pod is an abstraction of container
@@ -146,7 +144,7 @@ $ kubectl describe pod -o wide - Describe the pod with full info as output
 $ kubectl exec -it <pod_name> -- /bin/bash
 
 
----------------------------------------------------------- K8's YAML configuration file ---------------------------------------------------------------------
+#--------------------------------------------------------- K8's YAML configuration file ---------------------------------------------------------------------
 
 1. Kubernetes Yaml file for deployment (tomcat-deployment.yaml)
 
@@ -222,7 +220,7 @@ spec:
 	- The label is matched by the selector
 
 
----------------------------------------------------------------- Demo - MongoDB & MongoExpress --------------------------------------------------------------
+#-------------------------------------------------------------- Demo - MongoDB & MongoExpress --------------------------------------------------------------
 Overview of K8's component:
 
 >> 2 Deployment / Pod
@@ -446,7 +444,7 @@ $ minikube service mongo-express-service
 
 
 
--------------------------------------------------------------- KUBERNETES NAMESPACES------------------------------------------------------------------------
+#------------------------------------------------------------ KUBERNETES NAMESPACES------------------------------------------------------------------------
 
 1. What is Namespace?
 
@@ -524,7 +522,7 @@ $ sudo ln -s /opt/kubectx/kubens /usr/local/bin/kubens
 $ kubens my-namespace
 
 
------------------------------------------------------------------- K8's Ingress-------------------------------------------------------------------------------
+#----------------------------------------------------------------- K8's Ingress-------------------------------------------------------------------------------
 
 1. External service v/s Ingress & Internal service
 
@@ -786,14 +784,14 @@ spec:
 
 
 
-------------------------------------------------------------------------- HELM -------------------------------------------------------------------------------
+#----------------------------------------------------------------------- HELM -------------------------------------------------------------------------------
 
 What is HELM ?
 
 >> Package Manager for Kubernetes.
 >> Used to package YAML files and distribute them in public and private repositories ( Ex - Elastic stack for Logging)
 
-1. First feature: Helm charts
+1. First feature - Helm charts
 
 >> Bundle of YAML files
 >> Create own Helm charts with Helm
@@ -801,7 +799,7 @@ What is HELM ?
 >> Download and use existing ones.
 >> $ helm search <keyword> - To search for helm charts in repo.
 
-2. Second feature: Templating engine
+2. Second feature - Templating engine
 
 >> Ex- There is a Application made up of multiple microservices and deployed in k8's cluster. Deployment nd service configuration is almost
  same with only different docker image name & version tags so, we would have multiple similar configuration files with some unique tag/value
@@ -815,7 +813,7 @@ e) Values defined either via yaml file or with --set flag
 >> Conclusion: So, instead of having multiple yaml config files for different microservices. A single values.yaml file with placeholder and multiple template config files fetching values from values.yaml can be created.
 
 
-Template file:
+Template file -
 
 apiVersion: v1
 kind: Pod
@@ -828,7 +826,7 @@ spec:
       ports: {{ .Values.containers.port }}
 
 
-values.yaml file:
+values.yaml file -
 
 apiVersion: v1
 kind: Pod
@@ -862,7 +860,7 @@ templates folder ---> the actual template files
 $ helm install <chart_name>
 
 
-4. Release management: Keep track of all chart execution
+4. Release management - Keep track of all chart execution
 
 $ helm install <chart_name>  - Install chart v1.0.0
 $ helm upgrade <chart_name>  - Upgrade chart v1.0.1
@@ -870,7 +868,7 @@ $ helm rollback <chart_name> - Rollback back to v1.0.0
 
 
 
----------------------------------------------------------------------- K8's Volume-----------------------------------------------------------------------------
+#--------------------------------------------------------------------- K8's Volume-----------------------------------------------------------------------------
 
 >> How to persist data in kubernetes using volume?
 
@@ -887,10 +885,10 @@ c. Storage class (sc)
 3. Storage needs to survive even if cluster crashes
 
 
-1. Persistant volume:
+1. Persistant volume
 
 - A cluster resource as RAM or CPU used to store data
-- Created via YAML file (kind: PersistentVolume)
+- Created via YAML file (kind - PersistentVolume)
 - Need actual physical storage like NFS,AWS
 - PV are not namespaced and are accessible to whole cluster
 
@@ -980,7 +978,7 @@ spec:
 - cephfs
 - configMap
 
-NOTE: ConfigMap and Secret are also volume type. These are local volumes and not created via PV and PVC.
+#NOTE- ConfigMap and Secret are also volume type. These are local volumes and not created via PV and PVC.
 
 
 3. Multiple volume types
@@ -1061,7 +1059,7 @@ spec:
 
 
 
------------------------------------------------------------------- K8's Statefulset---------------------------------------------------------------------------
+#----------------------------------------------------------------- K8's Statefulset---------------------------------------------------------------------------
 
 1. What is statefulset ?
 
@@ -1090,7 +1088,7 @@ spec:
 - The other PODS which are only allowed to read data are called Slaves or Worker nodes.
 - These pods do not have access to same physical storage, even though they use same data.
 - They each have their own replicas of storege that each one can access for itself.
-- Data synchronization: Master has access to write db, so Worker pods should update their db taking Master as reference.
+- Data synchronization- Master has access to write db, so Worker pods should update their db taking Master as reference.
 - When a new worker pod joins, it clones data from previous (not any pod, but always previous one) for continous synchronization.
 - Data will survive even when all Pods die, as all data is stored in PV.
 - Next pod is only created, if previous is up and running.
@@ -1139,7 +1137,7 @@ spec:
           storage: 1Gi
 
 
--------------------------------------------------------------------- K8's Services-------------------------------------------------------------------------
+#------------------------------------------------------------------- K8's Services-------------------------------------------------------------------------
 
 What is service and When we need it?
 
@@ -1149,20 +1147,20 @@ What is service and When we need it?
 - Proivdes LoadBalancing
 - Loose coupling within & outside cluster.
 
-1. ClusterIP Service:
+1. ClusterIP Service-
 
 >> Default type of IP when type not specified
 >> To check IP address of a pod in a cluster 
 $ kubectl get pod -o wide 
 
-- Service communication: "Selector" (Which pods to forward the request to?)
+- Service communication-> "Selector" (Which pods to forward the request to?)
 
 >> Pods are identified via "selectors" attribute defined as key value pair from yaml config file
 >> These key value pairs are labels the pod should have to match the selector.
 >> key value pairs under metadata are arbitory (random)
 >> The deployment configuration metadata label should be matched with service selector.
 
-- Service communication: port (Which port to forward the request to?)
+- Service communication-> port (Which port to forward the request to?)
 
 >> If multiple ports are open in pod, then its picked by "targetPort" attribute defined in yaml.
 >> Service port can be arbitary, but "targetPort" must match the port container is listening.
@@ -1173,14 +1171,14 @@ $ kubectl get pod -o wide
 >> Client or another POD wants to communicate with 1 specific pod directly without going through service.
 >> Use cases: Stateful application like databases mysql, mongodb.
 >> Here, POD replicas are not identical
-Ex:  In mysql: Master is only allowed too write to DB and Worker pods has to connect to Master to synchronize data. When new worker pod starts it should connect to most recent worker node to clone the data.
+Ex-  In mysql Master is only allowed too write to DB and Worker pods has to connect to Master to synchronize data. When new worker pod starts it should connect to most recent worker node to clone the data.
 
 >> Client needs to figure out IP address of each POD.
-Option 1: API call to k8's API server
+Option 1-> API call to k8's API server
 - makes app too tied to k8's API
 - inefficient
 
-Option 2: DNS Lookup
+Option 2-> DNS Lookup
 - DNS Lookup for Service - returns single IP address (ClusterIP)
 - Set ClusterIP to "None" - returns POD IP address instead
 
@@ -1203,7 +1201,7 @@ spec:
 a). ClusterIP 
 
 >> DEFAULT, type not needed
->> internal service
+>> Internal service
 >> No access to external traffic, only accessible within cluster.
 
 apiVersion: v1
@@ -1258,26 +1256,26 @@ spec:
 	  
       
       
------------------------------------------------------------ KUBERNETES SECURITY (RBAC) ----------------------------------------------------------------------
+#--------------------------------------------------------- KUBERNETES SECURITY (RBAC) ----------------------------------------------------------------------
 
 1. Create user with limited namespace access.
 
-Roles:
+#Roles:
 
 Roles define a set of permissions (verbs) for specific resources (API groups, resources, and namespaces) within the cluster. For example, a Role might grant read, write, or delete permissions for Pods in a specific namespace.
 
 
-RoleBindings:
+#RoleBindings:
 
 RoleBindings associate users, groups, or service accounts with Roles, specifying which permissions they have for the specified resources. For example, a RoleBinding might associate a user named "admin" with a Role that grants full control over Pods in a namespace.
 
 
-ClusterRoles:
+#ClusterRoles:
 
 ClusterRoles are similar to Roles but apply cluster-wide instead of being namespace-specific. They define permissions for cluster-level resources and operations, such as nodes, namespaces, and custom resources.
 
 
-ClusterRoleBindings:
+#ClusterRoleBindings:
 
 ClusterRoleBindings associate users, groups, or service accounts with ClusterRoles, specifying which permissions they have across the entire cluster.
 
@@ -1349,7 +1347,7 @@ roleRef:
 Service Account(USER) --> Role(PERMISSION) & Cluster Role --> Role binding (Binding role to user) & Cluster role binding
 
 
--------------------------------------------------------------- k8's COMMANDS --------------------------------------------------------------------------
+#------------------------------------------------------------ k8's COMMANDS --------------------------------------------------------------------------
 
 $ minikube start
 
@@ -1435,9 +1433,19 @@ $ kubectl get ingress -n kubernetes-dashboard
 
 $ kubectl get ingress -n kubernetes-dashboard --watch
 
+$ kubectl describe pod <POD_NAME>
 
-------------------------------------------------------------- Kubernetes Interview ----------------------------------------------------------------------
-1. DaemonSet:
+$ kubectl logs <POD_NAME>
+
+$ kubectl get all -A
+
+$ kubectl get pods -o wide
+
+$ kubectl edit svc <svc_name> 
+
+
+#------------------------------------------------------------ Kubernetes Interview ----------------------------------------------------------------------
+1. DaemonSet
 
 DaemonSet that ensures that a specific Pod runs on every node in the cluster.
 
@@ -1460,7 +1468,7 @@ spec:
 		
 		
 
-2. Rollout:
+2. Rollout
 
 In Kubernetes (k8s), a rollout refers to the process of updating or modifying a Deployment, StatefulSet, DaemonSet, or ReplicaSet by managing the creation, scaling, and termination of its associated Pods. The rollout process ensures that the desired state of the workload is achieved gradually and without disruption to the availability of the application.
 
@@ -1475,7 +1483,7 @@ spec:
   selector:
     matchLabels:
       app: nginx
-  ​​strategy: 
+  strategy: 
     type: RollingUpdate
     rollingUpdate:
       maxSurge: 1
@@ -1491,14 +1499,3 @@ spec:
         ports:
        —containerPort: 80
 	   
-	   
-
-kubectl describe pod <POD_NAME>
-
-kubectl logs <POD_NAME>
-
-kubectl get all -A
-
-kubectl get pods -o wide
-
-kubectl edit svc <svc_name> 

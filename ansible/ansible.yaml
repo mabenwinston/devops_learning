@@ -1,8 +1,9 @@
----------------------------------------------------------------------- ANSIBLE -------------------------------------------------------------------------------
+# ANSIBLE
+
 $ ansible-playbook playbook.yaml -i inventory2.txt
 
 
-1. external_vars.yaml
+#1. external_vars.yaml
 
 component_path:
         - name: tomcat
@@ -13,7 +14,7 @@ component_path:
           path: ~/Software/JDK
 
 
-2. inventory.txt
+#2. inventory.txt
 
 [web]
 rmbgbp@10.180.40.91
@@ -21,7 +22,7 @@ rmbgbp@10.180.40.91
 [app]
 rmbdevadm@10.180.40.201
 
-3. playbook.yaml
+#3. playbook.yaml
 
 ---
 - name: Download and Setup Tomcat, client19c and JDK
@@ -109,9 +110,9 @@ rmbdevadm@10.180.40.201
                     state: present
                     backup: no
 
----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-Modules used:
+
+#Modules used:
 
 1. hosts
 2. gather_facts

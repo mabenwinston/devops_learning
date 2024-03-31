@@ -1,8 +1,8 @@
---------------------------------------------------------------------Introduction--------------------------------------------------------------------------------
+#-------------------------------------------------------------------Introduction--------------------------------------------------------------------------------
 
-1. IAC - Infrastructure as code | Automate Infrastructure
+1. IAC - Infrastructure as code, Automate Infrastructure
 2. Define Infrastructure state and maintain it.
-3. Ansible, chef or puppet automates mostly os related tasks | These define machine state
+3. Ansible, chef or puppet automates mostly os related tasks These define machine state
 4. Terraform automates infra itself like AWS, Azure, GCP
 5. Terraform works with automation software like Ansibe after infra is setupand ready.
 
@@ -72,7 +72,7 @@ variable AMI {
 	}
 }
 
------------------------------------------------------------------------- PROVISIONING & OUTPUT --------------------------------------------------------------
+#----------------------------------------------------------------------- PROVISIONING & OUTPUT --------------------------------------------------------------
 
 >> Build custom images with tools like packer
 >> Use standard image and use provisioner to setup softwares: 
@@ -83,7 +83,7 @@ variable AMI {
 >> Provisioners:
 	a. remote_exec - invokes a command/script on remote resource
 	b. local_exec - provisioner invokes a local executable after a resource is created.
-	
+
 1. vars.tf
 
 variable REGION {
