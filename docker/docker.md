@@ -1,4 +1,5 @@
--------------------------------------------------------------------------- Dockerfile ------------------------------------------------------------------------
+# Dockerfile 
+
 1. DOCKER ARCHITECTURE
 
 ** Docker Client: This component performs “build” "pull" “run” operations for the purpose of opening communication with the docker host.
@@ -26,7 +27,7 @@ Shell form: ENTRYPOINT command parameter1 parameter2
 Exec form: CMD [“executable”, “parameter1”, “parameter2”]
 Shell form: CMD command parameter1 parameter2
 
-$ cat Dockerfile
+2. Dockerfile
 
 FROM openjdk:8
 
@@ -45,9 +46,9 @@ WORKDIR /home0/docker/apache-tomcat-9.0.63/bin
 CMD ["/home0/docker/apache-tomcat-9.0.63/bin/catalina.sh", "run"]
 
 
+# Docker compose
 
--------------------------------------------------------------------------- Docker Compose --------------------------------------------------------------------
-**You can pass environment variables to docker-compose files in two ways:
+You can pass environment variables to docker-compose files in two ways:
 
 1. By exporting the variable to the terminal before running docker compose.
 2. By putting the variables inside .env file.
@@ -58,15 +59,15 @@ CMD ["/home0/docker/apache-tomcat-9.0.63/bin/catalina.sh", "run"]
 
 Note: [.env is for compose file & env_file is for container]
 
-$ cat .env
+---> cat .env
 MY_SECRET_KEY=SOME_SECRET
 IMAGE_NAME=docker_image
 
-$ cat secrets.env
+---> cat secrets.env
 somepassword="0P3N$3$@M!"
 
 
-$ cat docker-compose.yaml
+---> cat docker-compose.yaml
 
 version: '3'
 
@@ -153,7 +154,7 @@ networks:
 
 
 
-$ cat docker-compose.yaml
+--> cat docker-compose.yaml
 
 version: '3'
 
@@ -210,113 +211,112 @@ networks:
             name: "pg_net" # Name that will be the actual name of the network
 
 
--------------------------------------------------------------------------- DOCKER COMMANDS -------------------------------------------------------------------
 # DOCKER REGISTRY SETUP
 
-$ docker login -u admin -p password123 10.180.40.200:8081
+docker login -u admin -p password123 10.180.40.200:8081
 
-$ docker tag <image_name> 10.180.40.200:8081/<REPOSITORY_KEY>/<IMAGE_NAME>:<TAG>
+docker tag <image_name> 10.180.40.200:8081/<REPOSITORY_KEY>/<IMAGE_NAME>:<TAG>
 
-$ docker tag tomcat:latest mabenwinston/devops:v1.0
+docker tag tomcat:latest mabenwinston/devops:v1.0
 
-$ docker push mabenwinston/devops:v1.0
+docker push mabenwinston/devops:v1.0
 
-$ docker push 10.180.40.200:8081/<REPOSITORY_KEY>/<IMAGE_NAME>:<TAG>
+docker push 10.180.40.200:8081/<REPOSITORY_KEY>/<IMAGE_NAME>:<TAG>
 
-$ docker pull 10.180.40.200:8081/<REPOSITORY_KEY>/<IMAGE_NAME>
-
-
+docker pull 10.180.40.200:8081/<REPOSITORY_KEY>/<IMAGE_NAME>
 
 
 
-#DOCKER VOLUME
 
-$ docker volume ls
 
-$ docker volume create <vloume_name>
+# DOCKER VOLUME
 
-$ docker volume inspect <vloume_name>
+docker volume ls
+
+docker volume create <vloume_name>
+
+docker volume inspect <vloume_name>
 
 docker run -v /data/app:usr/src/app <container_name>
 
 
 # DOCKER NETWORK
 
-$ docker network ls
+docker network ls
 
-$ docker network create <network_name>
+docker network create <network_name>
 
-$ docker volumes prune 
+docker volumes prune 
 
 
 # DOCKER CLEANING
 
-$ docker system prune -a
+docker system prune -a
 
-$ docker system prune -f
+docker system prune -f
 
 
 # DOCKER IMAGES BUILD/VIEW/INFO
 
-$ docker image ls
+docker image ls
 
-$ docker image inspect <image_name>
+docker image inspect <image_name>
 
-$ docker run -it --rm <image_name> /bin/bash
+docker run -it --rm <image_name> /bin/bash
 
-$ docker save "image_name" > image_backup.tar
+docker save "image_name" > image_backup.tar
 
-$ docker load < image_backup.tar
+docker load < image_backup.tar
 
-$ docker build -t <image_name> .
+docker build -t <image_name> .
 
 
 # DOCKER IMAGES DELETE/REMOVE
 
-$ docker image rm <image_name>
+docker image rm <image_name>
 
-$ docker image rm $(docker image ls -a -q)
+docker image rm $(docker image ls -a -q)
 
-$ docker image rm $(docker image ls -f dangling=true -q)
+docker image rm $(docker image ls -f dangling=true -q)
 
-$ docker image rm -f $(docker image ls | grep "<none>" | awk '{print $3}')
+docker image rm -f $(docker image ls | grep "<none>" | awk '{print $3}')
 
 
 # DOCKER CONTAINER RUN/STOP/DELETE
 
-$ docker run <image_name>
+docker run <image_name>
 
-$ docker run -d <image_name>
+docker run -d <image_name>
 
-$ docker run -d -p 8080:8080 --name <container_name> <image_name>
+docker run -d -p 8080:8080 --name <container_name> <image_name>
 
-$ docker stop <container_id>
+docker stop <container_id>
 
-$ docker container rm <container-id/container_name>
+docker container rm <container-id/container_name>
 
-$ docker container rm -v <container-id/container_name>
+docker container rm -v <container-id/container_name>
 
-$ docker container rm $(docker container ls -a -f status=exited -q)
+docker container rm $(docker container ls -a -f status=exited -q)
 
-$ docker container stop $(docker container ls -a -q) && docker container rm $(docker container ls -a -q)
+docker container stop $(docker container ls -a -q) && docker container rm $(docker container ls -a -q)
 
 
 # DOCKER CONTAINER INFO/EDIT
 
-$ docker exec -it <container_id> /bin/bash 
+docker exec -it <container_id> /bin/bash 
 
-$ docker cp <container-id>:<path/inside/container> <path/of/local/machine>
+docker cp <container-id>:<path/inside/container> <path/of/local/machine>
 
-$ docker cp <file_name> <container-id>:/path/of/container
+docker cp <file_name> <container-id>:/path/of/container
 
-$ docker logs <container_id/container_name>
+docker logs <container_id/container_name>
 
-$ docker info <container_id>
+docker info <container_id>
 
-$ docker container logs infinite -f <container_id/container_name>
+docker container logs infinite -f <container_id/container_name>
 
-$ docker ps
+docker ps
    
-$ docker container ls -a
+docker container ls -a
 
-$ docker export --output container.tar.gz <container_name/container_id>
+docker export --output container.tar.gz <container_name/container_id>
