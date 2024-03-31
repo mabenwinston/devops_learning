@@ -1,0 +1,34 @@
+--------------------------------------------------------------Liquibase Interview----------------------------------------------------------------------------
+
+1) Master.sh
+
+export _JAVA_OPTIONS="-Xmx8g"
+java -cp 'liquibaseJars/*' liquibase.integration.commandline.Main  update
+
+
+2) changelog.xml
+<databaseChangeLog>
+<include file="IMPL/DML/bo_bt_dependency_temp-828.sql" />
+<include file="IMPL/DML/pp_clr_prty_dtls_temp-834.sql" />
+<include file="IMPL/DML/DELETE_PP_ROUTING_SEQ_temp-839.sql" />
+</databaseChangeLog>
+
+3) liquibase.properties
+
+driver:oracle.jdbc.OracleDriver
+classpath:/home0/ora12c/app/ora12c/product/12.2.0/client_1/jdbc/lib/ojdbc8.jar
+changeLogFile:changelog.xml
+url:jdbc:oracle:thin:@10.180.40.204:1521:GSCORA19C19C
+username:TEMP_USER
+password:password123
+
+4) SQL file entry
+
+--liquibase formatted sql
+--changeset maben:DML-01
+
+
+5) DB table to check
+
+
+SELECT * FROM DATABASECHANGELOG;

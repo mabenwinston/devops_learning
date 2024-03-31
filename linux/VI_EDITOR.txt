@@ -1,0 +1,41 @@
+#VIM EDITOR COMMANDS
+
+------------------------------------------------------------------------DELETE LINE COMMAND----------------------------------------------------------------------
+
+1. DELETE ALL LINES - :%d
+
+2. TO DISPLAY LINE NUMBERS - :set number
+
+3. GO AT END OF FILE - shitf+G
+
+4. GO TO TOP OF FILE - gg
+
+5. DELETE A LINE - dd
+
+6. Type :5dd and hit Enter to delete the next five lines.
+
+7. :[start],[end]d - delete range of lines
+
+8. CTRL + R = redo a change
+
+9. u = undo a change
+
+For example, to delete lines starting from 3 to 5 you would do the following: Type :3,5d and hit Enter to delete the lines.
+
+
+:g/foo/d - Delete all lines containing the string “foo”. It also removes line where “foo” is embedded in larger words, such as “football”.
+:g!/foo/d - Delete all lines not containing the string “foo”.
+:g/^#/d - Remove all comments from a Bash script. The pattern ^# means each line beginning with #.
+:g/^$/d - Remove all blank lines. The pattern ^$ matches all empty lines.
+
+
+
+:.,$d - From the current line to the end of the file.
+:.,1d - From the current line to the beginning of the file.
+:10,$d - From the 10th line to the end of the file.
+
+
+. (dot) - The current line.
+$ - The last line.
+% - All lines.
+-----------------------------------------------------------------
