@@ -159,10 +159,7 @@ sed -i 's/that/this/gi;s/line/verse/gi' file.txt ----> Performing two or more su
 
 sed -i "567 -r file1.xml" file2.xml ----> Append the lines after 567 from file1.txt to file2.txt 
 
-# SED COMMAND FROM NARENDRA
 
-
- 
 
 --------------------------------------------------------------------GREP COMMAND-------------------------------------------------------------------------------
 ##OPTIONS WITH GREP COMMAND
