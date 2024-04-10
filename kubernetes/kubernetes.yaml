@@ -1498,4 +1498,58 @@ spec:
         image: nginx:1.14.2
         ports:
        —containerPort: 80
-	   
+	
+
+3. Service account in kubernetes
+
+>> Service accounts are essential for securing communication between different parts of a Kubernetes cluster and controlling access to cluster resources.
+>> They provide a way to ensure that only authorized entities can interact with the Kubernetes API and perform actions within the cluster.
+
+a. Create a Service Account
+
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: my-service-account
+
+
+b. Create a Pod Using the Service Account
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-pod
+spec:
+  serviceAccountName: my-service-account
+  containers:
+  - name: my-container
+    image: nginx
+
+
+c. Grant Permissions to the Service Account
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: pod-reader
+rules:
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "list", "watch"]
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: read-pods
+subjects:
+- kind: ServiceAccount
+  name: my-service-account
+  namespace: default
+roleRef:
+  kind: Role
+  name: pod-reader
+  apiGroup: rbac.authorization.k8s.io
+
+
