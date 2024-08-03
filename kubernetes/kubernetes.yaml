@@ -1553,3 +1553,70 @@ roleRef:
   apiGroup: rbac.authorization.k8s.io
 
 
+4. Create resource limits for PODS in k8's
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-cache
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: flask-cache
+  template:
+    metadata:
+      labels:
+        name: flask-cache
+    spec:
+      containers:
+        - name: cache-service
+          image: xasag94215/flask-cache
+          ports:
+            - containerPort: 5000
+              name: rest
+            resources:
+              requests:
+                cpu: 25m
+                memory: 64Mi
+              limits:
+                cpu: 410m
+                memory: 512Mi
+
+5. HPA - Horizontal Pod Autoscaler
+
+Prerequisites:
+==> A running Kubernetes cluster.
+==> Metrics Server installed in the cluster (HPA relies on metrics provided by the Metrics Server).
+
+
+
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: nginx-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: nginx-deployment
+  minReplicas: 2
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50
+
+
+To Check or verify Metrics server is running - 
+
+$ kubectl top nodes
+
+$ kubectl top pods
+
+$ kubectl logs -n kube-system <metrics-server-pod-name>
+
+

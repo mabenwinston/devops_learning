@@ -5,9 +5,9 @@ def max_profit(prices):
             max_profit = max_profit + prices[i + 1] - prices[i]
     return max_profit
 
-# prices = [1,2,3,4,5]
-prices = [7,1,5,3,6,4]
-#prices = [7,6,4,3,1]
+prices = [1,2,3,4,5]
+# prices = [7,1,5,3,6,4]
+# prices = [7,6,4,3,1]
 print("Output:", max_profit(prices))
 
 
@@ -24,7 +24,7 @@ def max_profit2(prices):
             sell = prices[j]
     return sell, buy
 
-#price = [1,2,3,4,5]
-#price = [7,1,5,3,6,4]
-price = [7,6,4,3,1]
+price = [1,2,3,4,5]
+# price = [7,1,5,3,6,4]
+# price = [7,6,4,3,1]
 print("Output:", max_profit2(price))
